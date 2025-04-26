@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <div>Home
       <button 
-        className='bg-red-700 p-2 text-white'
+        className='bg-red-700 px-3 py-2 text-white rounded'
         onClick={logoutFunc}>Log Out</button>
     </div>
   )
