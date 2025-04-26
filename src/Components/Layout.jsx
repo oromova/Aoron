@@ -19,16 +19,16 @@ const Layout = () => {
         <NavLink to="/category" className={linkStyle}>Category</NavLink>
         <NavLink to="/discount" className={linkStyle}>Discount</NavLink>
         <NavLink to="/sizes" className={linkStyle}>Sizes</NavLink>
-        <NavLink to="/products" className={linkStyle}>Colors</NavLink>
-        <NavLink to="/category" className={linkStyle}>Faq</NavLink>
-        <NavLink to="/discount" className={linkStyle}>Contact</NavLink>
-        <NavLink to="/products" className={linkStyle}>Team</NavLink>
-        <NavLink to="/sizes" className={linkStyle}>News</NavLink>
+        <NavLink to="/colors" className={linkStyle}>Colors</NavLink>
+        <NavLink to="/faq" className={linkStyle}>Faq</NavLink>
+        <NavLink to="/contact" className={linkStyle}>Contact</NavLink>
+        <NavLink to="/team" className={linkStyle}>Team</NavLink>
+        <NavLink to="/news" className={linkStyle}>News</NavLink>
       </div>
 
       {/* Content */}
-      <div className="col-span-10 p-4 bg-gray-200">
-        {/* <Outlet /> */}
+      <div className="col-span-10 p-4 bg-gray-200 min-h-screen">
+        <Outlet />
       </div>
     </div>
   );

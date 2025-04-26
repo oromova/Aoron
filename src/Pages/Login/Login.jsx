@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Login = () => {
-  const [login, setLogin] = useState();
-  const [password, setPassword] = useState()
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("")
   const navigate = useNavigate()
 
   const loginSubmit = (e) => {
