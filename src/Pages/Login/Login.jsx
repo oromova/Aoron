@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Login = () => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("")
+  const [login, setLogin] = useState();
+  const [password, setPassword] = useState()
   const navigate = useNavigate()
 
   const loginSubmit = (e) => {
@@ -26,8 +26,9 @@ const Login = () => {
         toast.success(item?.data?.message);
         localStorage.setItem("accesstoken", item?.data?.access_token)
         localStorage.setItem("refreshtoken", item?.data?.refresh_token)
-        navigate('/home')
-      }else{
+        navigate('/')
+      }
+      else{
         toast.error(item?.message?.message)
       }
     })

@@ -17,14 +17,14 @@ import Error from './Components/Error';
 
 
 const App = () => {
-  const tokenbek = localStorage.getItem("accesstoken");
+  const token = localStorage.getItem("accesstoken");
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (tokenbek) {
-      navigate("/home");
-    } else {
+    if (token) {
       navigate("/");
+    } else {
+      navigate("/login");
     }
   }, []);
 
