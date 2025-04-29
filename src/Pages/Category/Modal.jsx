@@ -1,0 +1,105 @@
+import { useState } from "react";
+import { toast } from "react-toastify";
+
+const ModalCategory = ({ setModalOpen, getCategory }) => {
+  const [nameEn, setNameEn] = useState();
+  const [nameRu, setNameRu] = useState();
+  const [nameDe, setNameDe] = useState();
+  const token = localStorage.getItem("accesstoken");
+
+  // POST
+  const createCategory = (event) => {
+    event.preventDefault();
+
+    fetch("https://back.ifly.com.uz/api/category", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        name_en: nameEn,
+        name_de: nameDe,
+        name_ru: nameRu,
+      })
+    }).then((res) => res.json())
+      .then((elem) => {
+        if (elem.success) {
+          toast.success("Category created succsessfully");
+          getCategory();
+          setModalOpen(false);
+        } else {
+          toast.error(elem?.message?.message);
+        }
+      });
+  };
+
+
+  return (
+    <div>
+      <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50 overflow-y-auto">
+        <div>
+          <div className="relative bg-white p-6 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setModalOpen(false)}
+              className="absolute top-2 right-2 text-white bg-red-500 px-2 py-[2px] cursor-pointer rounded-full">X</button>
+            <div>
+              <h3 className="text-xl font-bold mb-4">Add Category</h3>
+              <form onSubmit={createCategory}>
+                <label
+                  htmlFor="name_en"
+                  className="block mb-1 text-sm font-medium">
+                  Category Name (EN)
+                </label>
+                <input
+                  onChange={(e) => setNameEn(e.target.value)}
+                  type="text"
+                  name="name_en"
+                  className="w-full p-2 border border-gray-300 rounded mb-1"
+                  placeholder="English name"
+                  maxLength={80}
+                  required
+                />
+                <label htmlFor="name_de"
+                  className="block mb-1 text-sm font-medium">
+                  Category Name (RU)
+                </label>
+                <input
+                  onChange={(e) => setNameRu(e.target.value)}
+                  type="text"
+                  name="name_ru"
+                  className="w-full p-2 border border-gray-300 rounded mb-1"
+                  placeholder="Russian name"
+                  maxLength={80}
+                  required
+                />
+                <label htmlFor="name_de"
+                  className="block mb-1 text-sm font-medium">
+                  Category Name (DE)
+                </label>
+                <input
+                  onChange={(e) => setNameDe(e.target.value)}
+                  type="text"
+                  name="name_de"
+                  className="w-full p-2 border border-gray-300 rounded mb-1"
+                  placeholder="German name"
+                  maxLength={80}
+                  required
+                />
+                <button
+                  // onClick={() => setModalOpen(false)}
+                  type="submit"
+                  className="w-full mt-4 cursor-pointer p-2 bg-green-500 text-white rounded-lg"
+                >
+                  Add Category
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ModalCategory;

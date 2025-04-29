@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-import logo from '../assets/logo.png';
+import logo from '../assets/admin-logo.png';
 
 const Layout = () => {
   const linkStyle = ({ isActive }) =>
