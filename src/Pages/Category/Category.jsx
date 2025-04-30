@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalCategory from './Modal';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -7,6 +7,7 @@ const Category = () => {
   // GET CATEGORY
   const [data, setData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [editData, setEditData] = useState(null);
   const token = localStorage.getItem("accesstoken");
   const navigate = useNavigate();
   // GET
@@ -32,24 +33,23 @@ const Category = () => {
 
   // DELETE API
   const deleteCategory = (id) => {
-    fetch(`https://back.ifly.com.uz/api/category/${id}`,{
+    fetch(`https://back.ifly.com.uz/api/category/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
     })
-    .then((res) => res.json())
-    .then((item) => {
-      if(item?.success){
-        toast.success(item?.data?.message)
-        getCategory()
-      }else {
-        toast.error(item?.message?.message)
-      }
-    })
+      .then((res) => res.json())
+      .then((item) => {
+        if (item?.success) {
+          toast.success(item?.data?.message);
+          getCategory();
+        } else {
+          toast.error(item?.message?.message);
+        }
+      });
   };
-
 
   return (
     <section>
@@ -62,6 +62,7 @@ const Category = () => {
             Log Out
           </button>
         </div>
+       
         {/* Table */}
         <div className='p-6'>
           <div className='bg-white p-6 rounded-lg shadow-md'>
@@ -70,14 +71,16 @@ const Category = () => {
                 Category
               </h2>
               <button
-                onClick={() => setModalOpen(!modalOpen)}
+                onClick={() => {
+                  setModalOpen(!modalOpen);
+                  setEditData(false);
+                }}
                 className='cursor-pointer mb-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition'>
                 Add Category
               </button>
             </div>
             <table className='min-w-full table-auto'>
               <thead>
-                {/* {data?.map((item, index) => ( */}
                 <tr className='bg-gray-200'>
                   <th className='border border-gray-300 p-2'>№</th>
                   <th className='border border-gray-300 p-2'>Title ENG</th>
@@ -85,7 +88,6 @@ const Category = () => {
                   <th className='border border-gray-300 p-2'>Title DE</th>
                   <th className='border border-gray-300 p-2'>Actions</th>
                 </tr>
-                {/* ))} */}
               </thead>
               <tbody>
                 {data?.map((item, index) => (
@@ -93,7 +95,7 @@ const Category = () => {
                     key={index}
                     className='text-center hover:bg-gray-100'>
                     <td className='border border-gray-300 p-2'>
-                      {index+1}
+                      {index + 1}
                     </td>
                     <td className='border border-gray-300 p-2'>
                       {item?.name_en}
@@ -105,7 +107,13 @@ const Category = () => {
                       {item?.name_de}
                     </td>
                     <td className='border border-gray-300 p-2 w-[200px]'>
-                      <button className='px-4 py-2 mr-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition cursor-pointer'>
+                      <button
+                        onClick={() => {
+                          setModalOpen(!modalOpen);
+                          setEditData(item)
+                        }}
+                        className='px-4 py-2 mr-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition cursor-pointer'
+                      >
                         Edit
                       </button>
                       <button
@@ -115,15 +123,19 @@ const Category = () => {
                       </button>
                     </td>
                   </tr>
-
                 ))}
-
               </tbody>
             </table>
           </div>
         </div>
         {/* modal */}
-        {modalOpen && <ModalCategory setModalOpen={setModalOpen} getCategory={getCategory} />}
+        {modalOpen &&
+          <ModalCategory
+            setModalOpen={setModalOpen}
+            getCategory={getCategory}
+            editData={editData}
+          />
+        }
       </div>
     </section >
 
