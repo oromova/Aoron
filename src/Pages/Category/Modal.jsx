@@ -2,9 +2,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 const ModalCategory = ({ setModalOpen, getCategory }) => {
-  const [nameEn, setNameEn] = useState();
-  const [nameRu, setNameRu] = useState();
-  const [nameDe, setNameDe] = useState();
+  const [nameEn, setNameEn] = useState("");
+  const [nameRu, setNameRu] = useState("");
+  const [nameDe, setNameDe] = useState("");
   const token = localStorage.getItem("accesstoken");
 
   // POST
@@ -24,16 +24,17 @@ const ModalCategory = ({ setModalOpen, getCategory }) => {
       })
     }).then((res) => res.json())
       .then((elem) => {
-        if (elem.success) {
+        if (elem?.success) {
           toast.success("Category created succsessfully");
           getCategory();
           setModalOpen(false);
         } else {
-          toast.error(elem?.message?.message);
+          toast.error(elem?.message?.message || "Something went wrong");
         }
       });
   };
 
+ 
 
   return (
     <div>
@@ -59,6 +60,7 @@ const ModalCategory = ({ setModalOpen, getCategory }) => {
                   placeholder="English name"
                   maxLength={80}
                   required
+                  value={nameEn || ""}
                 />
                 <label htmlFor="name_de"
                   className="block mb-1 text-sm font-medium">
@@ -72,6 +74,7 @@ const ModalCategory = ({ setModalOpen, getCategory }) => {
                   placeholder="Russian name"
                   maxLength={80}
                   required
+                  value={nameRu || ""}
                 />
                 <label htmlFor="name_de"
                   className="block mb-1 text-sm font-medium">
@@ -85,9 +88,9 @@ const ModalCategory = ({ setModalOpen, getCategory }) => {
                   placeholder="German name"
                   maxLength={80}
                   required
+                  value={nameDe || ""}
                 />
                 <button
-                  // onClick={() => setModalOpen(false)}
                   type="submit"
                   className="w-full mt-4 cursor-pointer p-2 bg-green-500 text-white rounded-lg"
                 >
