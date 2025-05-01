@@ -53,7 +53,7 @@ const ModalCategory = ({ setModalOpen, getCategory, editData }) => {
     }).then((res) => res.json())
       .then((elm) => {
         if (elm?.success) {
-          toast.success("category edit successfully");
+          toast.success("Category edit successfully");
           getCategory();
           setClickData("");
           setModalOpen(false);
@@ -71,7 +71,9 @@ const ModalCategory = ({ setModalOpen, getCategory, editData }) => {
           <div className="relative bg-white p-6 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setModalOpen(false)}
-              className="absolute top-2 right-2 text-white bg-red-500 px-2 py-[2px] cursor-pointer rounded-full">X</button>
+              className="absolute top-2 right-2 text-white bg-red-500 px-2 py-[2px] cursor-pointer rounded-full">
+                X
+            </button>
             <div>
               <h3 className="text-xl font-bold mb-4">
                 {editData?.id > 0 ? "Update Category" : "Add Category"}

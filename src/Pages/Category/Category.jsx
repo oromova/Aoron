@@ -53,7 +53,7 @@ const Category = () => {
 
   return (
     <section>
-      <div className=''>
+      <div>
         {/* Log out */}
         <div className='flex mr-6 mt-4 justify-end py-2 w-full'>
           <button

@@ -1,8 +1,128 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const Sizes = () => {
+  // GET SIZE
+  const [data, setData] = useState([]);
+  const token = localStorage.getItem("accesstoken");
+  const navigate = useNavigate();
+
+   // GET
+  const getSize = () => {
+    fetch('https://back.ifly.com.uz/api/sizes')
+      .then((respon) => respon.json())
+      .then((item) => setData(item?.data));
+  };
+
+  useEffect(() => {
+    getSize();
+  }, []);
+
+  // LOG OUT 
+  const logoutFunc = () => {
+    if (confirm("Are you sure you want to log out?")) {
+      localStorage.removeItem("accesstoken");
+      localStorage.removeItem("refreshtoken");
+      navigate("/login");
+    }
+  };
+
+// DELETE API
+// const deleteSize = (id) => {
+//   fetch(`https://back.ifly.com.uz/api/size/${id}`, {
+//     method: "DELETE",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "Authorization": `Bearer ${token}`
+//     },
+//   })
+//     .then((res) => res.json())
+//     .then((item) => {
+//       if (item?.success) {
+//         toast.success(item?.data?.message);
+//         getCategory();
+//       } else {
+//         toast.error(item?.message?.message);
+//       }
+//     });
+// };
+
+
   return (
-    <div>Sizes</div>
+    <section>
+      <div>
+        {/* Log out */}
+        <div className='flex mr-6 mt-4 justify-end py-2 w-full'>
+          <button
+            className='bg-red-600 px-4 py-2 text-white rounded-lg text-right cursor-pointer hover:bg-red-600 transition mr-7'
+            onClick={logoutFunc}>
+            Log Out
+          </button>
+        </div>
+        {/* Table */}
+        <div className='p-6'>
+          <div className='bg-white p-6 rounded-lg shadow-md'>
+            <div className='flex justify-between'>
+              <h2 className='text-xl font-bold mb-6'>
+                Size
+              </h2>
+              <button
+                onClick={() => {
+                  setModalOpen(!modalOpen);
+                  // setEditData(false);
+                }}
+                className='cursor-pointer mb-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition'>
+                Add Size
+              </button>
+            </div>
+            
+            <table className='min-w-full table-auto'>
+              <thead>
+              <tr className='bg-gray-200'>
+                <th className='border border-gray-300 p-2'>№</th>
+                <th className='border border-gray-300 p-2'>Sizes</th>
+                <th className='border border-gray-300 p-2'>Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+                {data?.map((item, index) => (
+                  <tr
+                    key={index}
+                    className='text-center hover:bg-gray-100'>
+                    <td className='border border-gray-300 p-2'>
+                      {index + 1}
+                    </td>
+                    <td className='border border-gray-300 p-2'>
+                      {item?.size}
+                    </td>
+                    <td className='border border-gray-300 p-2 w-[200px]'>
+                      <button
+                        onClick={() => {
+                          setModalOpen(!modalOpen);
+                          // setEditData(item)
+                        }}
+                        className='px-4 py-2 mr-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition cursor-pointer'
+                      >
+                        Edit
+                      </button>
+                      <button
+                        // onClick={() => deleteCategory(item?.id)}
+                        className='px-4 py-2 mr-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition cursor-pointer'>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
   )
 }
 
