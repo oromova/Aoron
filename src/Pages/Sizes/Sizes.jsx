@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import ModalSize from './ModalSize';
 
 const Sizes = () => {
   const [data, setData] = useState([]);
@@ -132,6 +133,14 @@ const Sizes = () => {
 
           </div>
         </div>
+        {/* Modal Add Edit */}
+        {modalOpen && 
+          <ModalSize
+          setModalOpen={setModalOpen}
+          getSize={getSize}
+          // editData={editData}
+        />
+        }
       </div>
     </section>
   );
