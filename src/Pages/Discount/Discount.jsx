@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ModalDiscount from "./Modal";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
 const Discount = () => {
@@ -8,6 +9,7 @@ const Discount = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editData, setEditData] = useState(null);
   const token = localStorage.getItem("accesstoken");
+  const navigate = useNavigate()
 
   // LOG OUT
   const logoutFunc = () => {
@@ -38,11 +40,9 @@ const Discount = () => {
       .then((item) => {
         if (item?.success) {
           toast.success(item?.data);
-          console.log(item);
           getDiscount()
         } else {
           toast.error("Something went wrong");
-          console.log(item);
         }
       });
   };

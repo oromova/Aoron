@@ -54,7 +54,7 @@ const ModalDiscount = ({ setModalOpen, getDiscount, editData }) => {
       .then((elm) => {
         if (elm?.success) {
           toast.success("Discount edit successfully");
-          getCategory();
+          getDiscount();
           setClickData("");
           setModalOpen(false);
         } else {

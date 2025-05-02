@@ -8,6 +8,7 @@ const Sizes = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [editData, setEditData] = useState(null);
   const token = localStorage.getItem("accesstoken");
   const navigate = useNavigate();
 
@@ -89,7 +90,10 @@ const Sizes = () => {
                     <td className='border border-gray-300 p-2'>{item?.size}</td>
                     <td className='border border-gray-300 p-2 w-[200px]'>
                       <button
-                        onClick={() => setModalOpen(!modalOpen)}
+                        onClick={() => {
+                          setModalOpen(!modalOpen)
+                          setEditData(item);
+                        }}
                         className='px-4 py-2 mr-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition cursor-pointer'>
                         Edit
                       </button>
@@ -138,7 +142,7 @@ const Sizes = () => {
           <ModalSize
           setModalOpen={setModalOpen}
           getSize={getSize}
-          // editData={editData}
+          editData={editData}
         />
         }
       </div>

@@ -48,9 +48,7 @@ const ModalSize = ({ setModalOpen, getSize, editData }) => {
       .then((elm) => {
         if (elm?.success) {
           toast.success("Size edit successfully");
-          getSize();
-          setClickData("");
-          setModalOpen(false);
+          getSize()
         } else {
           toast.error("Size edit failed");
         }
@@ -71,17 +69,18 @@ const ModalSize = ({ setModalOpen, getSize, editData }) => {
             <h3 className="text-xl font-bold mb-4">
               {editData?.id > 0 ? "Update Size" : "Add Size"}
             </h3>
-            <form onSubmit={editData?.id > 0 ? editCategory : createSize}>
+            <form onSubmit={editData?.id > 0 ? editSize : createSize}>
               <input
                 onChange={(e) => setSize(e.target.value)}
                 type="text"
                 placeholder="Size name"
                 name="size"
-                maxlength="5"
+                maxLength="2"
                 defaultValue={editData?.id > 0 ? editData?.size : ""}
-                class="w-full p-2 border border-gray-300 rounded mb-2"
+                className="w-full p-2 border border-gray-300 rounded mb-2"
+                required
               />
-              <button type="submit" class="w-full p-2 cursor-pointer bg-green-500 text-white rounded-lg">
+              <button type="submit" className="w-full p-2 cursor-pointer bg-green-500 text-white rounded-lg">
                 {editData?.id > 0 ? "Update Size" : "Add Size"}
               </button>
             </form>

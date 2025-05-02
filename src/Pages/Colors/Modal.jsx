@@ -1,68 +1,68 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const ModalCategory = ({ setModalOpen, getCategory, editData }) => {
-  const [nameEn, setNameEn] = useState("");
-  const [nameRu, setNameRu] = useState("");
-  const [nameDe, setNameDe] = useState("");
+const ModalColors = ({ setModalOpen, editData, getColor }) => {
+  const [colorEn, setColorEn] = useState("");
+  const [colorRu, setColorRu] = useState("");
+  const [colorDe, setColorDe] = useState("");
+
   const token = localStorage.getItem("accesstoken");
 
   // POST
-  const createCategory = (event) => {
+  const createColor = (event) => {
     event.preventDefault();
 
-    fetch("https://back.ifly.com.uz/api/category", {
+    fetch('https://back.ifly.com.uz/api/colors', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({
-        name_en: nameEn,
-        name_de: nameDe,
-        name_ru: nameRu,
+        color_en: colorEn,
+        color_ru: colorRu,
+        color_de: colorDe,
       })
     }).then((res) => res.json())
-      .then((elem) => {
-        if (elem?.success) {
-          toast.success("Category created succsessfully");
-          getCategory();
+      .then((item) => {
+        if (item?.success) {
+          toast.success("Color created succsessfully");
+          getColor();
           setModalOpen(false);
         } else {
-          toast.error(elem?.message?.message || "Something went wrong");
+          toast.error("Something went wrong");
         }
       });
   };
 
-  // editMODAL
+  // editModal
+  // PATCH 
 
-  // Patch API
-  const editCategory = (e) => {
+  const editColors = (e) => {
     e.preventDefault();
-    fetch(`https://back.ifly.com.uz/api/category/${editData?.id}`, {
+    fetch(`https://back.ifly.com.uz/api/colors/${editData?.id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
         "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({
-        name_en: nameEn,
-        name_ru: nameRu,
-        name_de: nameDe
+        color_en: colorEn,
+        color_ru: colorRu,
+        color_de: colorDe,
       })
     }).then((res) => res.json())
-      .then((elm) => {
-        if (elm?.success) {
-          toast.success("Category edit successfully");
-          getCategory();
-          setClickData("");
-          setModalOpen(false);
-        } else {
-          toast.error("Category edit failed");
-        }
-      });
-  };
-
+    .then((elm) => {
+      if(elm?.success){
+        toast.success("Color update successfully");
+        getColor()
+        setModalOpen(false);
+      }
+      else {
+        toast.error("Color update failed");
+      }
+    }) 
+  }
 
   return (
     <div>
@@ -72,64 +72,64 @@ const ModalCategory = ({ setModalOpen, getCategory, editData }) => {
             <button
               onClick={() => setModalOpen(false)}
               className="absolute top-2 right-2 text-white bg-red-500 px-2 py-[2px] cursor-pointer rounded-full">
-                X
+              X
             </button>
             <div>
               <h3 className="text-xl font-bold mb-4">
-                {editData?.id > 0 ? "Update Category" : "Add Category"}
+                {editData?.id > 0 ? "Update Color" : "Add Color"}
               </h3>
-              <form onSubmit={editData?.id > 0 ? editCategory : createCategory}>
+              <form onSubmit={editData?.id > 0 ? editColors : createColor}>
                 <label
-                  htmlFor="name_en"
+                  htmlFor="color_en"
                   className="block mb-1 text-sm font-medium">
-                  Category Name (EN)
+                  Color (EN)
                 </label>
                 <input
-                  onChange={(e) => setNameEn(e.target.value)}
+                  onChange={(e) => setColorEn(e.target.value)}
                   type="text"
-                  name="name_en"
+                  name="color_en"
                   className="w-full p-2 border border-gray-300 rounded mb-1"
-                  placeholder="English name"
-                  defaultValue={editData?.id > 0 ? editData?.name_en : ""}
+                  placeholder="Color in English"
+                  defaultValue={editData?.id > 0 ? editData?.color_en : ""}
                   maxLength={80}
                   required
-                  value={nameEn || ""}
+                  value={colorEn || ""}
                 />
-                <label htmlFor="name_de"
+                <label htmlFor="color_ru"
                   className="block mb-1 text-sm font-medium">
-                  Category Name (RU)
+                  Color (RU)
                 </label>
                 <input
-                  onChange={(e) => setNameRu(e.target.value)}
+                  onChange={(e) => setColorRu(e.target.value)}
                   type="text"
-                  name="name_ru"
+                  name="color_ru"
                   className="w-full p-2 border border-gray-300 rounded mb-1"
-                  placeholder="Russian name"
-                  defaultValue={editData?.id > 0 ? editData?.name_ru : ""}
+                  placeholder="Цвет на русском"
+                  defaultValue={editData?.id > 0 ? editData?.color_ru : ""}
                   maxLength={80}
                   required
-                  value={nameRu || ""}
+                  value={colorRu || ""}
                 />
-                <label htmlFor="name_de"
+                <label htmlFor="color_de"
                   className="block mb-1 text-sm font-medium">
-                  Category Name (DE)
+                  Color (DE)
                 </label>
                 <input
-                  onChange={(e) => setNameDe(e.target.value)}
+                  onChange={(e) => setColorDe(e.target.value)}
                   type="text"
                   name="name_de"
                   className="w-full p-2 border border-gray-300 rounded mb-1"
-                  placeholder="German name"
-                  defaultValue={editData?.id > 0 ? editData?.name_de : ""}
+                  placeholder="Farbe auf Deutsch"
+                  defaultValue={editData?.id > 0 ? editData?.color_de : ""}
                   maxLength={80}
                   required
-                  value={nameDe || ""}
+                  value={colorDe || ""}
                 />
                 <button
                   type="submit"
                   className="w-full mt-4 cursor-pointer p-2 bg-green-500 text-white rounded-lg"
                 >
-                  {editData?.id > 0 ? "Update Category" : "Add Category"}
+                  {editData?.id > 0 ? "Update Color" : "Add Color"}
                 </button>
               </form>
             </div>
@@ -140,4 +140,4 @@ const ModalCategory = ({ setModalOpen, getCategory, editData }) => {
   );
 };
 
-export default ModalCategory;
+export default ModalColors;
