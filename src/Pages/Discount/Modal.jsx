@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
 
 const ModalDiscount = ({ setModalOpen, getDiscount, editData }) => {
   const [discount, setDiscount] = useState("");
   const [startDate, setStartDate] = useState("");
   const [finishDate, setFinishDate] = useState("");
   const token = localStorage.getItem("accesstoken");
+  const [status, setStatus] = useState(false);
 
   // POST
   const createDiscount = (event) => {
@@ -48,20 +48,29 @@ const ModalDiscount = ({ setModalOpen, getDiscount, editData }) => {
       body: JSON.stringify({
         discount: Number(discount),
         started_at: startDate,
-        finished_at: finishDate
+        finished_at: finishDate,
+        status: status
       })
     }).then((res) => res.json())
       .then((elm) => {
         if (elm?.success) {
           toast.success("Discount edit successfully");
           getDiscount();
-          setClickData("");
           setModalOpen(false);
         } else {
           toast.error("Discount edit failed");
         }
       });
   };
+
+  useEffect(() => {
+    if (editData) {
+      setDiscount(editData?.discount || "");
+      setStartDate(editData?.started_at || "");
+      setFinishDate(editData?.finished_at || "");
+      setStatus(editData?.status || false);
+    }
+  }, [editData]);
 
 
   return (
@@ -78,7 +87,7 @@ const ModalDiscount = ({ setModalOpen, getDiscount, editData }) => {
               {editData?.id > 0 ? "Edit Discount" : "Add Discount"}
             </h3>
             <form onSubmit={editData?.id > 0 ? editDiscount : createDiscount}>
-              <input 
+              <input
                 onChange={(e) => setDiscount(e.target.value)}
                 type="number" step={1} min={0} max={100}
                 placeholder='Discount (%)'
@@ -86,7 +95,7 @@ const ModalDiscount = ({ setModalOpen, getDiscount, editData }) => {
                 className='w-full p-2 border border-gray-300 rounded mb-2'
                 defaultValue={editData?.id > 0 ? editData?.discount : ""}
               />
-              <input 
+              <input
                 onChange={(e) => setStartDate(e.target.value)}
                 type="date"
                 placeholder='Created Date'
@@ -94,7 +103,7 @@ const ModalDiscount = ({ setModalOpen, getDiscount, editData }) => {
                 className='w-full p-2 border border-gray-300 rounded mb-2'
                 defaultValue={editData?.id > 0 ? editData?.started_at : ""}
               />
-              <input 
+              <input
                 onChange={(e) => setFinishDate(e.target.value)}
                 type="date"
                 placeholder='Finished Date'
@@ -104,6 +113,8 @@ const ModalDiscount = ({ setModalOpen, getDiscount, editData }) => {
               />
               <label className='flex items-center space-x-2 mb-4'>
                 <input
+                  checked={status}
+                  onChange={(e) => setStatus(e.target.checked)}
                   type="checkbox"
                   name='status'
                   className='w-4 h-4 border-2 border-gray-300 rounded-lg checked:bg-green-500 focus:bg-green-500 transition-all duration-200'

@@ -55,7 +55,6 @@ const ModalCategory = ({ setModalOpen, getCategory, editData }) => {
         if (elm?.success) {
           toast.success("Category edit successfully");
           getCategory();
-          setClickData("");
           setModalOpen(false);
         } else {
           toast.error("Category edit failed");
