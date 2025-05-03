@@ -21,7 +21,8 @@ const ModalDiscount = ({ setModalOpen, getDiscount, editData }) => {
       body: JSON.stringify({
         discount: Number(discount),
         started_at: startDate,
-        finished_at: finishDate
+        finished_at: finishDate,
+        status: status 
       })
     }).then((res) => res.json())
       .then((elem) => {
