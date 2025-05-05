@@ -26,7 +26,7 @@ const Login = () => {
         toast.success(item?.data?.message);
         localStorage.setItem("accesstoken", item?.data?.access_token)
         localStorage.setItem("refreshtoken", item?.data?.refresh_token)
-        navigate('/')
+        navigate('/products')
       }
       else{
         toast.error(item?.message?.message)
