@@ -14,6 +14,7 @@ import Contact from './Pages/Contact/Contact';
 import Team from './Pages/Team/Team';
 import News from './Pages/News/News';
 import Error from './Components/Error';
+import 'react-phone-input-2/lib/style.css';
 
 
 const App = () => {

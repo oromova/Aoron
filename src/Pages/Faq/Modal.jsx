@@ -106,7 +106,7 @@ const ModalFaq = ({ setModalOpen, editData, getFaq }) => {
                 />
               </div>
               <div className="mb-4">
-              <label
+                <label
                   htmlFor="answer_en"
                   className="block">
                   Answer (English)
