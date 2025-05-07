@@ -117,7 +117,9 @@ const ModalFaq = ({ setModalOpen, editData, getFaq }) => {
                   placeholder="Enter answer in English"
                   className="w-full p-2 border border-gray-300 rounded"
                   maxLength={500}
-                  id="">
+                  defaultValue={editData?.id > 0 ? editData?.answer_en : ""}
+                  value={answerEn || ""}
+                  id="answer_en">
                 </textarea>
               </div>
 
@@ -151,7 +153,9 @@ const ModalFaq = ({ setModalOpen, editData, getFaq }) => {
                   placeholder="Enter answer in Russian"
                   className="w-full p-2 border border-gray-300 rounded"
                   maxLength={500}
-                  id="">
+                  defaultValue={editData?.id > 0 ? editData?.answer_ru : ""}
+                  value={answerRu || ""}
+                  id="answer_ru">
                 </textarea>
               </div>
 
@@ -170,7 +174,7 @@ const ModalFaq = ({ setModalOpen, editData, getFaq }) => {
                   defaultValue={editData?.id > 0 ? editData?.question_de : ""}
                   maxLength={80}
                   required
-                  value={questionEn || ""}
+                  value={questionDe || ""}
                 />
               </div>
               <div className="mb-4">
@@ -180,12 +184,14 @@ const ModalFaq = ({ setModalOpen, editData, getFaq }) => {
                   Answer (German)
                 </label>
                 <textarea
-                  onChange={(e) => setAnswerEn(e.target.value)}
+                  onChange={(e) => setAnswerDe(e.target.value)}
                   name="answer_de"
-                  placeholder="Enter answer in English"
+                  placeholder="Enter answer in German"
                   className="w-full p-2 border border-gray-300 rounded"
                   maxLength={500}
-                  id="">
+                  defaultValue={editData?.id > 0 ? editData?.answer_de : ""}
+                  value={answerDe || ""}
+                  id="answer_de">
                 </textarea>
               </div>
 

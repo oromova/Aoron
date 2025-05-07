@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ModalFaq from "./Modal";
+import { toast } from "react-toastify";
 
 const Faq = () => {
   const [data, setData] = useState([]);
@@ -46,7 +47,7 @@ const Faq = () => {
       .then((item) => {
         if (item?.success) {
           toast.success(item?.data);
-          getColor();
+          getFaq();
         } else {
           toast.error("Something went wrong");
         }
