@@ -1,12 +1,15 @@
-import img from "../assets/noData.png"
+import img from "../assets/noData.png";
 
-const NoData = ({label}) => {
+const NoData = ({ label }) => {
   return (
-    <div className='text-center py-6'>
-      <img className="mx-auto w-20" src={img} alt="img" />
-      <p className="text-gray-500 mt-2">No {label} Avilable</p>
+    <div className="py-6">
+      <div className="text-center w-full max-w-md mx-auto">
+        <img className="mx-auto w-20" src={img} alt="img" />
+        <p className="text-gray-500 mt-2">No {label} Available</p>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default NoData
+export default NoData;
+

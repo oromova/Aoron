@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ModalContact from "./Modal";
+import NoData from '../../Components/NoData';
 
 const Contact = () => {
   const [data, setData] = useState([]);
@@ -24,7 +25,7 @@ const Contact = () => {
 
   // GET Contact
   const getContact = () => {
-    fetch("https://back.ifly.com.uz/api/contact", )
+    fetch("https://back.ifly.com.uz/api/contact",)
       .then((res) => res.json())
       .then((item) => setData(item?.data));
   };
@@ -68,7 +69,7 @@ const Contact = () => {
         </button>
       </div>
 
-      {/* Table */}
+      {/* TABLE */}
       <div className='p-6'>
         <div className='bg-white p-6 rounded-lg shadow-md'>
           <div className='flex justify-between'>
@@ -84,65 +85,72 @@ const Contact = () => {
               Add Contact
             </button>
           </div>
-          <table className='min-w-full table-auto'>
-            <thead>
-              <tr className='bg-gray-200'>
-                <th className='border border-gray-300 p-2'>№</th>
-                <th className='border border-gray-300 p-2'>Phone Number</th>
-                <th className='border border-gray-300 p-2'>Email</th>
-                <th className='border border-gray-300 p-2'>Address (EN)</th>
-                <th className='border border-gray-300 p-2'>Address (RU)</th>
-                <th className='border border-gray-300 p-2'>Address (DE)</th>
-                <th className='border border-gray-300 p-2'>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.map((item, index) => (
-                <tr
-                  key={index}
-                  className='text-center hover:bg-gray-100'>
-                  <td className='border border-gray-300 p-2'>
-                    {index + 1}
-                  </td>
-                  <td className='border border-gray-300 p-2'>
-                    {item?.phone_number}
-                  </td>
-                  <td className='border border-gray-300 p-2'>
-                    {item?.email}
-                  </td>
-                  <td className='border border-gray-300 p-2'>
-                    {item?.address_en}
-                  </td>
-                  <td className='border border-gray-300 p-2'>
-                    {item?.address_ru}
-                  </td>
-                  <td className='border border-gray-300 p-2'>
-                    {item?.address_de}
-                  </td>
-                  <td className='border border-gray-300 p-2 w-[200px]'>
-                    <button
-                      onClick={() => {
-                        setModalOpen(true);
-                        setEditData(item);
-                      }}
-                      className='px-4 py-2 mr-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition cursor-pointer'
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => {
-                        setConfirmModal(true);
-                        setSelectedId(item?.id);
-                      }}
-                      className='px-4 py-2 mr-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition cursor-pointer'>
-                      Delete
-                    </button>
-                  </td>
+          {data?.length === 0 ? (
+            <div className="py-10 flex justify-center items-center">
+              <NoData label="Contact" />
+            </div>
+          ) : (
+            <table className='min-w-full table-auto'>
+              <thead>
+                <tr className='bg-gray-200'>
+                  <th className='border border-gray-300 p-2'>№</th>
+                  <th className='border border-gray-300 p-2'>Phone Number</th>
+                  <th className='border border-gray-300 p-2'>Email</th>
+                  <th className='border border-gray-300 p-2'>Address (EN)</th>
+                  <th className='border border-gray-300 p-2'>Address (RU)</th>
+                  <th className='border border-gray-300 p-2'>Address (DE)</th>
+                  <th className='border border-gray-300 p-2'>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
 
+                {data?.map((item, index) => (
+                  <tr
+                    key={index}
+                    className='text-center hover:bg-gray-100'>
+                    <td className='border border-gray-300 p-2'>
+                      {index + 1}
+                    </td>
+                    <td className='border border-gray-300 p-2'>
+                      {item?.phone_number}
+                    </td>
+                    <td className='border border-gray-300 p-2'>
+                      {item?.email}
+                    </td>
+                    <td className='border border-gray-300 p-2'>
+                      {item?.address_en}
+                    </td>
+                    <td className='border border-gray-300 p-2'>
+                      {item?.address_ru}
+                    </td>
+                    <td className='border border-gray-300 p-2'>
+                      {item?.address_de}
+                    </td>
+                    <td className='border border-gray-300 p-2 w-[200px]'>
+                      <button
+                        onClick={() => {
+                          setModalOpen(true);
+                          setEditData(item);
+                        }}
+                        className='px-4 py-2 mr-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition cursor-pointer'
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          setConfirmModal(true);
+                          setSelectedId(item?.id);
+                        }}
+                        className='px-4 py-2 mr-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition cursor-pointer'>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+
+                ))}
+              </tbody>
+            </table>
+          )}
           {/* Confirm Delete Modal */}
           {confirmModal && (
             <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center">
@@ -171,8 +179,8 @@ const Contact = () => {
 
       {/* Modal */}
       {
-        modalOpen && 
-        <ModalContact 
+        modalOpen &&
+        <ModalContact
           setModalOpen={setModalOpen}
           editData={editData}
           getContact={getContact}
