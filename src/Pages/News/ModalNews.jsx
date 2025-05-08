@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { toast } from 'react-toastify';
 
 const ModalNews = ({ setModalOpen, editData, getNews }) => {
   const [titleEn, setTitleEn] = useState("")
@@ -12,7 +13,7 @@ const ModalNews = ({ setModalOpen, editData, getNews }) => {
   const token = localStorage.getItem("accesstoken");
 
   // POST
-      const createTeam = (event) => {
+      const createNews = (event) => {
       event.preventDefault();
   
       const formdata = new FormData()
@@ -32,7 +33,7 @@ const ModalNews = ({ setModalOpen, editData, getNews }) => {
         .then((item) => {
           if (item?.success) {
             toast.success("Team member created succsessfully");
-            getTeam();
+            getNews();
             setModalOpen(false);
           } else {
             toast.error("Something went wrong");
@@ -46,13 +47,13 @@ const ModalNews = ({ setModalOpen, editData, getNews }) => {
     e.preventDefault();
   
     const formdata = new FormData();
-    formdata.append("full_name", name);
-    formdata.append("position_ru", positionRu);
-    formdata.append("position_de", positionDe);
-    formdata.append("position_en", positionEn);
+    formdata.append("title_en", titleEn);
+    formdata.append("title_ru", titleRu);
+    formdata.append("title_de", titleDe);
+    formdata.append("description_en", descriptionEn);
     if (image) formdata.append("file", image);
-  
-    fetch(`https://back.ifly.com.uz/api/team-section/${editData?.id}`, {
+
+    fetch(`https://back.ifly.com.uz/api/news/${editData?.id}`, {
       method: "PATCH",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -62,11 +63,11 @@ const ModalNews = ({ setModalOpen, editData, getNews }) => {
       .then((res) => res.json())
       .then((elm) => {
         if (elm?.success === true) {
-          toast.success("Team updated successfully");
-          getTeam();
+          toast.success("News updated successfully");
+          getNews();
           setModalOpen(false);
         } else {
-          toast.error("Team update failed");
+          toast.error("News update failed");
         }
       });
   };
@@ -82,13 +83,13 @@ const ModalNews = ({ setModalOpen, editData, getNews }) => {
           </button>
           <div>
             <h3 className="text-xl font-bold mb-4">
-              {editData?.id > 0 ? "Edit Team Member" : "Add Team Member"}
+              {editData?.id > 0 ? "Edit News" : "Add News"}
             </h3>
-            <form onSubmit={editData?.id > 0 ? editTeam : createTeam}>
+            <form onSubmit={editData?.id > 0 ? editNews : createNews}>
               <label
                 className="block text-sm font-medium"
-                htmlFor="full_name">
-                Full Name
+                htmlFor="titleEn">
+                Title (EN)
               </label>
               <input
                 onChange={(e) => setName(e.target.value)}
