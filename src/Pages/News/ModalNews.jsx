@@ -1,76 +1,76 @@
-import { useState } from 'react';
-import { toast } from 'react-toastify';
+import React, { useState } from 'react'
 
-const ModalTeam = ({ setModalOpen, editData, getTeam }) => {
-  const [name, setName] = useState(null);
-  const [positionEn, setPositionEn] = useState("");
-  const [positionRu, setPositionRu] = useState("");
-  const [positionDe, setPositionDe] = useState("");
+const ModalNews = ({ setModalOpen, editData, getNews }) => {
+  const [titleEn, setTitleEn] = useState("")
+  const [titleRu, setTitleRu] = useState("")
+  const [titleDe, setTitleDe] = useState("")
+  const [descriptionEn, setDescriptionEn] = useState("")
+  const [descriptionRu, setDescriptionRu] = useState("")
+  const [descriptionDe, setDescriptionDe] = useState("")
   const [image, setImage] = useState();
 
   const token = localStorage.getItem("accesstoken");
 
-
   // POST
-    const createTeam = (event) => {
-    event.preventDefault();
-
-    const formdata = new FormData()
-    formdata.append("full_name", name)
-    formdata.append("position_ru", positionRu)
-    formdata.append("position_de", positionDe)
-    formdata.append("position_en", positionEn)
-    formdata.append("file", image)
-
-    fetch(`https://back.ifly.com.uz/api/team-section`, {
-      method: "POST",
+      const createTeam = (event) => {
+      event.preventDefault();
+  
+      const formdata = new FormData()
+      formdata.append("full_name", name)
+      formdata.append("position_ru", positionRu)
+      formdata.append("position_de", positionDe)
+      formdata.append("position_en", positionEn)
+      formdata.append("file", image)
+  
+      fetch(`https://back.ifly.com.uz/api/team-section`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
+        body: formdata
+      }).then((res) => res.json())
+        .then((item) => {
+          if (item?.success) {
+            toast.success("Team member created succsessfully");
+            getTeam();
+            setModalOpen(false);
+          } else {
+            toast.error("Something went wrong");
+          }
+        });
+    };
+  
+    // editModal
+    // PATCH 
+    const editNews = (e) => {
+    e.preventDefault();
+  
+    const formdata = new FormData();
+    formdata.append("full_name", name);
+    formdata.append("position_ru", positionRu);
+    formdata.append("position_de", positionDe);
+    formdata.append("position_en", positionEn);
+    if (image) formdata.append("file", image);
+  
+    fetch(`https://back.ifly.com.uz/api/team-section/${editData?.id}`, {
+      method: "PATCH",
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${token}`,
       },
-      body: formdata
-    }).then((res) => res.json())
-      .then((item) => {
-        if (item?.success) {
-          toast.success("Team member created succsessfully");
+      body: formdata,
+    })
+      .then((res) => res.json())
+      .then((elm) => {
+        if (elm?.success === true) {
+          toast.success("Team updated successfully");
           getTeam();
           setModalOpen(false);
         } else {
-          toast.error("Something went wrong");
+          toast.error("Team update failed");
         }
       });
   };
-
-  // editModal
-  // PATCH 
-  const editTeam = (e) => {
-  e.preventDefault();
-
-  const formdata = new FormData();
-  formdata.append("full_name", name);
-  formdata.append("position_ru", positionRu);
-  formdata.append("position_de", positionDe);
-  formdata.append("position_en", positionEn);
-  if (image) formdata.append("file", image);
-
-  fetch(`https://back.ifly.com.uz/api/team-section/${editData?.id}`, {
-    method: "PATCH",
-    headers: {
-      "Authorization": `Bearer ${token}`,
-    },
-    body: formdata,
-  })
-    .then((res) => res.json())
-    .then((elm) => {
-      if (elm?.success === true) {
-        toast.success("Team updated successfully");
-        getTeam();
-        setModalOpen(false);
-      } else {
-        toast.error("Team update failed");
-      }
-    });
-};
-
+  
   return (
     <div>
       <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50 overflow-y-auto">
@@ -161,7 +161,7 @@ const ModalTeam = ({ setModalOpen, editData, getTeam }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ModalTeam;
+export default ModalNews

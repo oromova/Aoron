@@ -3,6 +3,7 @@ import NoData from "../../Components/NoData";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import '../../index.css';
+import ModalTeam from "./ModalTeam";
 
 const Team = () => {
   const [data, setData] = useState([]);
@@ -15,8 +16,6 @@ const Team = () => {
     fetch('https://back.ifly.com.uz/api/team-section')
       .then((item) => item.json())
       .then((elm) => {
-        console.log("API", elm);
-
         setData(elm.data);
       });
   };
@@ -42,15 +41,15 @@ const Team = () => {
     fetch(`https://back.ifly.com.uz/api/team-section/${id}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
     })
       .then((res) => res.json())
       .then((item) => {
         if (item?.success) {
-          toast.success(item?.data);
+          toast.success("Successfully deleted");
           getTeam();
+          setModalOpen(false)
         } else {
           toast.error("Something went wrong");
         }
