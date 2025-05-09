@@ -99,6 +99,8 @@ const News = () => {
                   <th className='border border-gray-300 p-2'>№</th>
                   <th className='border border-gray-300 p-2'>Image</th>
                   <th className='border border-gray-300 p-2'>Title (EN)</th>
+                  <th className='border border-gray-300 p-2'>Title (RU)</th>
+                  <th className='border border-gray-300 p-2'>Title (DE)</th>
                   <th className='border border-gray-300 p-2'>Description</th>
                   <th className='border border-gray-300 p-2'>Actions</th>
                 </tr>
@@ -113,17 +115,18 @@ const News = () => {
                       {index + 1}
                     </td>
                     <td className='border border-gray-300 p-2'>
-                      <img src={`https://back.ifly.com.uz/${item?.image}`} alt="image" />
+                      <img src={`https://back.ifly.com.uz/${item?.image}`} alt="image"
+                    />
                     </td>
                     <td className='border border-gray-300 p-2'>
                       {item?.title_en}
                     </td>
-                    {/* <td className='border border-gray-300 p-2'>
+                    <td className='border border-gray-300 p-2'>
                       {item?.title_ru}
                     </td>
                     <td className='border border-gray-300 p-2'>
                       {item?.title_de}
-                    </td> */}
+                    </td>
                     <td className='border border-gray-300 p-2'>
                       {item?.description_en}
                     </td>

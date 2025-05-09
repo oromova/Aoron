@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 
 const ModalNews = ({ setModalOpen, editData, getNews }) => {
@@ -12,18 +12,31 @@ const ModalNews = ({ setModalOpen, editData, getNews }) => {
 
   const token = localStorage.getItem("accesstoken");
 
+  useEffect(() => {
+    if (editData) {
+      setTitleEn(editData.title_en || "");
+      setTitleRu(editData.title_ru || "");
+      setTitleDe(editData.title_de || "");
+      setDescriptionEn(editData.description_en || "");
+      setDescriptionRu(editData.description_ru || "");
+      setDescriptionDe(editData.description_de || "");
+    }
+  }, [editData]);
+
   // POST
       const createNews = (event) => {
       event.preventDefault();
-  
+
       const formdata = new FormData()
-      formdata.append("full_name", name)
-      formdata.append("position_ru", positionRu)
-      formdata.append("position_de", positionDe)
-      formdata.append("position_en", positionEn)
+      formdata.append("title_en", titleEn)
+      formdata.append("title_ru", titleRu)
+      formdata.append("title_de", titleDe)
+      formdata.append("description_en", descriptionEn)
+      formdata.append("description_ru", descriptionRu)
+      formdata.append("description_de", descriptionDe)
       formdata.append("file", image)
   
-      fetch(`https://back.ifly.com.uz/api/team-section`, {
+      fetch(`https://back.ifly.com.uz/api/news`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`
@@ -32,7 +45,7 @@ const ModalNews = ({ setModalOpen, editData, getNews }) => {
       }).then((res) => res.json())
         .then((item) => {
           if (item?.success) {
-            toast.success("Team member created succsessfully");
+            toast.success("News created succsessfully");
             getNews();
             setModalOpen(false);
           } else {
@@ -51,6 +64,8 @@ const ModalNews = ({ setModalOpen, editData, getNews }) => {
     formdata.append("title_ru", titleRu);
     formdata.append("title_de", titleDe);
     formdata.append("description_en", descriptionEn);
+    formdata.append("description_ru", descriptionRu);
+    formdata.append("description_de", descriptionDe);
     if (image) formdata.append("file", image);
 
     fetch(`https://back.ifly.com.uz/api/news/${editData?.id}`, {
@@ -92,50 +107,76 @@ const ModalNews = ({ setModalOpen, editData, getNews }) => {
                 Title (EN)
               </label>
               <input
-                onChange={(e) => setName(e.target.value)}
+                value={titleEn}
+                onChange={(e) => setTitleEn(e.target.value)}
                 type="text"
-                name="full_name"
+                name="titleEn"
                 className="w-full p-2 border border-gray-300 rounded mb-4"
-                maxLength={50}
-                defaultValue={editData?.full_name}
-              />
-              <label
-                className="block text-sm font-medium"
-                htmlFor="position_en">
-                Position (English)
-              </label>
-              <input
-                onChange={(e) => setPositionEn(e.target.value)}
-                type="text"
-                name="position_en"
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-                defaultValue={editData?.position_en}
                 maxLength={50}
               />
               <label
                 className="block text-sm font-medium"
-                htmlFor="position_ru">
-                Position (Russian)
+                htmlFor="titleEn">
+                Title (RU)
               </label>
               <input
-                onChange={(e) => setPositionRu(e.target.value)}
+                onChange={(e) => setTitleRu(e.target.value)}
                 type="text"
-                name="position_ru"
+                name="titleRu"
                 className="w-full p-2 border border-gray-300 rounded mb-4"
                 maxLength={50}
-                defaultValue={editData?.position_ru}
+                value={titleRu}
+              />
+               <label
+                className="block text-sm font-medium"
+                htmlFor="titleDe">
+                Title (DE)
+              </label>
+              <input
+                onChange={(e) => setTitleDe(e.target.value)}
+                type="text"
+                name="titleDe"
+                className="w-full p-2 border border-gray-300 rounded mb-4"
+                maxLength={50}
+                value={titleDe}
               />
               <label
                 className="block text-sm font-medium"
-                htmlFor="position_de">
-                Position (German)
+                htmlFor="description_en">
+                Description (EN)
               </label>
               <input
-                onChange={(e) => setPositionDe(e.target.value)}
+                onChange={(e) => setDescriptionEn(e.target.value)}
                 type="text"
-                name="position_de"
+                name="description_en"
                 className="w-full p-2 border border-gray-300 rounded mb-4"
-                defaultValue={editData?.position_de}
+                maxLength={50}
+                value={descriptionEn}
+              />
+              <label
+                className="block text-sm font-medium"
+                htmlFor="description_ru">
+                Description (RU)
+              </label>
+              <input
+                onChange={(e) => setDescriptionRu(e.target.value)}
+                type="text"
+                name="description_ru"
+                className="w-full p-2 border border-gray-300 rounded mb-4"
+                value={descriptionRu}
+                maxLength={50}
+              />
+              <label
+                className="block text-sm font-medium"
+                htmlFor="description_de">
+                Description (DE)
+              </label>
+              <input
+                onChange={(e) => setDescriptionDe(e.target.value)}
+                type="text"
+                name="description_de"
+                className="w-full p-2 border border-gray-300 rounded mb-4"
+                value={descriptionDe}
                 maxLength={50}
               />
               <label
@@ -155,7 +196,7 @@ const ModalNews = ({ setModalOpen, editData, getNews }) => {
                 type="submit"
                 className="w-full mt-4 cursor-pointer p-2 bg-green-500 text-white rounded-lg"
               >
-                {editData?.id > 0 ? "Update Team Member" : "Add Team Member"}
+                {editData?.id > 0 ? "Update News" : "Add News"}
               </button>
             </form>
           </div>
