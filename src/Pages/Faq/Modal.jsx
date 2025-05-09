@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const ModalFaq = ({ setModalOpen, editData, getFaq }) => {
@@ -10,6 +10,17 @@ const ModalFaq = ({ setModalOpen, editData, getFaq }) => {
   const [answerDe, setAnswerDe] = useState("");
 
   const token = localStorage.getItem("accesstoken");
+
+  useEffect(() => {
+    if (editData) {
+      setQuestionEn(editData.question_en || "");
+      setQuestionRu(editData.question_ru || "");
+      setQuestionDe(editData.question_de || "");
+      setAnswerEn(editData.answer_en || "");
+      setAnswerRu(editData.answer_ru || "");
+      setAnswerDe(editData.answer_de || "");
+    }
+  }, [editData]);
 
   // POST
   const createFaq = (event) => {
@@ -94,16 +105,15 @@ const ModalFaq = ({ setModalOpen, editData, getFaq }) => {
                   Question (English)
                 </label>
                 <input
-                  onChange={(e) => setQuestionEn(e.target.value)}
-                  type="text"
-                  name="question_en"
-                  className="w-full p-2 border border-gray-300 rounded mb-1"
-                  placeholder="Enter question in English"
-                  defaultValue={editData?.id > 0 ? editData?.question_en : ""}
-                  maxLength={80}
-                  required
-                  value={questionEn || ""}
-                />
+  onChange={(e) => setQuestionEn(e.target.value)}
+  value={questionEn}
+  type="text"
+  name="question_en"
+  className="w-full p-2 border border-gray-300 rounded mb-1"
+  placeholder="Enter question in English"
+  maxLength={80}
+  required
+/>
               </div>
               <div className="mb-4">
                 <label
@@ -117,8 +127,7 @@ const ModalFaq = ({ setModalOpen, editData, getFaq }) => {
                   placeholder="Enter answer in English"
                   className="w-full p-2 border border-gray-300 rounded"
                   maxLength={500}
-                  defaultValue={editData?.id > 0 ? editData?.answer_en : ""}
-                  value={answerEn || ""}
+                  value={answerEn}
                   id="answer_en">
                 </textarea>
               </div>
@@ -135,10 +144,9 @@ const ModalFaq = ({ setModalOpen, editData, getFaq }) => {
                   name="question_ru"
                   className="w-full p-2 border border-gray-300 rounded mb-1"
                   placeholder="Enter question in Russian"
-                  defaultValue={editData?.id > 0 ? editData?.question_ru : ""}
                   maxLength={80}
                   required
-                  value={questionRu || ""}
+                  value={questionRu}
                 />
               </div>
               <div className="mb-4">
@@ -153,8 +161,7 @@ const ModalFaq = ({ setModalOpen, editData, getFaq }) => {
                   placeholder="Enter answer in Russian"
                   className="w-full p-2 border border-gray-300 rounded"
                   maxLength={500}
-                  defaultValue={editData?.id > 0 ? editData?.answer_ru : ""}
-                  value={answerRu || ""}
+                  value={answerRu}
                   id="answer_ru">
                 </textarea>
               </div>
@@ -171,10 +178,9 @@ const ModalFaq = ({ setModalOpen, editData, getFaq }) => {
                   name="question_de"
                   className="w-full p-2 border border-gray-300 rounded mb-1"
                   placeholder="Enter question in German"
-                  defaultValue={editData?.id > 0 ? editData?.question_de : ""}
                   maxLength={80}
                   required
-                  value={questionDe || ""}
+                  value={questionDe}
                 />
               </div>
               <div className="mb-4">
@@ -189,8 +195,7 @@ const ModalFaq = ({ setModalOpen, editData, getFaq }) => {
                   placeholder="Enter answer in German"
                   className="w-full p-2 border border-gray-300 rounded"
                   maxLength={500}
-                  defaultValue={editData?.id > 0 ? editData?.answer_de : ""}
-                  value={answerDe || ""}
+                  value={answerDe}
                   id="answer_de">
                 </textarea>
               </div>

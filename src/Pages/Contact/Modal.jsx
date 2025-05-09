@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import { toast } from "react-toastify";
 
@@ -10,6 +10,16 @@ const ModalContact = ({ setModalOpen, editData, getContact }) => {
   const [addressDe, setAddressDe] = useState("");
 
   const token = localStorage.getItem("accesstoken");
+
+  useEffect(() => {
+    if (editData) {
+      setPhone(editData.phone_number || "");
+      setEmail(editData.email || "");
+      setAddressEn(editData.address_en || "");
+      setAddressRu(editData.address_ru || "");
+      setAddressDe(editData.address_de || "");
+    }
+  }, [editData]);
 
   // POST
   const createContact = (event) => {
@@ -94,7 +104,7 @@ const ModalContact = ({ setModalOpen, editData, getContact }) => {
                 Phone Number
               </label>
                   <PhoneInput
-                    // onChange={(e) => setPhone(e.target.value)}
+                    value={phone}
                     country={'uz'}
                     onChange={handleChange}
                     inputStyle={{ width: '100%' }}
@@ -113,6 +123,7 @@ const ModalContact = ({ setModalOpen, editData, getContact }) => {
                 className="w-full p-2 border border-gray-300 rounded mb-4"
                 placeholder="Email"
                 maxLength={50} 
+                value={email}
               />
               <label 
                 className="block text-sm font-medium"
@@ -124,7 +135,9 @@ const ModalContact = ({ setModalOpen, editData, getContact }) => {
                 name="address_en"
                 className="w-full p-2 border border-gray-300 rounded mb-4"
                 placeholder="Address (EN)"
-                maxLength={200}></textarea>
+                maxLength={200}
+                value={addressEn}>
+              </textarea>
               <label 
                 className="block text-sm font-medium"
                 htmlFor="address_ru">
@@ -135,6 +148,7 @@ const ModalContact = ({ setModalOpen, editData, getContact }) => {
                 name="address_ru"
                 className="w-full p-2 border border-gray-300 rounded mb-4"
                 placeholder="Address (RU)"
+                value={addressRu}
                 maxLength={200}></textarea>
               <label 
                 className="block text-sm font-medium"
@@ -146,8 +160,8 @@ const ModalContact = ({ setModalOpen, editData, getContact }) => {
                 name="address_de"
                 className="w-full p-2 border border-gray-300 rounded mb-4"
                 placeholder="Address (DE)"
+                value={addressDe}
                 maxLength={200}></textarea>
-
               <button
                 type="submit"
                 className="w-full mt-4 cursor-pointer p-2 bg-green-500 text-white rounded-lg"

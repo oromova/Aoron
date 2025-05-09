@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 const ModalTeam = ({ setModalOpen, editData, getTeam }) => {
-  const [name, setName] = useState(null);
+  const [name, setName] = useState("");
   const [positionEn, setPositionEn] = useState("");
   const [positionRu, setPositionRu] = useState("");
   const [positionDe, setPositionDe] = useState("");
@@ -10,6 +10,14 @@ const ModalTeam = ({ setModalOpen, editData, getTeam }) => {
 
   const token = localStorage.getItem("accesstoken");
 
+  useEffect(() => {
+    if (editData) {
+      setName(editData.full_name || "");
+      setPositionEn(editData.position_en || "");
+      setPositionRu(editData.position_ru || "");
+      setPositionDe(editData.position_de || "");
+    }
+  }, [editData]);
 
   // POST
     const createTeam = (event) => {
@@ -96,7 +104,7 @@ const ModalTeam = ({ setModalOpen, editData, getTeam }) => {
                 name="full_name"
                 className="w-full p-2 border border-gray-300 rounded mb-4"
                 maxLength={50}
-                defaultValue={editData?.full_name}
+                value={name}
               />
               <label
                 className="block text-sm font-medium"
@@ -108,7 +116,7 @@ const ModalTeam = ({ setModalOpen, editData, getTeam }) => {
                 type="text"
                 name="position_en"
                 className="w-full p-2 border border-gray-300 rounded mb-4"
-                defaultValue={editData?.position_en}
+                value={positionEn}
                 maxLength={50}
               />
               <label
@@ -122,7 +130,7 @@ const ModalTeam = ({ setModalOpen, editData, getTeam }) => {
                 name="position_ru"
                 className="w-full p-2 border border-gray-300 rounded mb-4"
                 maxLength={50}
-                defaultValue={editData?.position_ru}
+                value={positionRu}
               />
               <label
                 className="block text-sm font-medium"
@@ -134,7 +142,7 @@ const ModalTeam = ({ setModalOpen, editData, getTeam }) => {
                 type="text"
                 name="position_de"
                 className="w-full p-2 border border-gray-300 rounded mb-4"
-                defaultValue={editData?.position_de}
+                value={positionDe}
                 maxLength={50}
               />
               <label

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const ModalColors = ({ setModalOpen, editData, getColor }) => {
@@ -7,6 +7,14 @@ const ModalColors = ({ setModalOpen, editData, getColor }) => {
   const [colorDe, setColorDe] = useState("");
 
   const token = localStorage.getItem("accesstoken");
+
+  useEffect(() => {
+    if (editData) {
+      setColorEn(editData.color_en || "");
+      setColorRu(editData.color_ru || "");
+      setColorDe(editData.color_de || "");
+    }
+  }, [editData]);
 
   // POST
   const createColor = (event) => {
@@ -76,7 +84,7 @@ const ModalColors = ({ setModalOpen, editData, getColor }) => {
             </button>
             <div>
               <h3 className="text-xl font-bold mb-4">
-                {editData?.id > 0 ? "Update Color" : "Add Color"}
+                {editData?.id > 0 ? "Edit Color" : "Add Color"}
               </h3>
               <form onSubmit={editData?.id > 0 ? editColors : createColor}>
                 <label
@@ -90,10 +98,9 @@ const ModalColors = ({ setModalOpen, editData, getColor }) => {
                   name="color_en"
                   className="w-full p-2 border border-gray-300 rounded mb-1"
                   placeholder="Color in English"
-                  defaultValue={editData?.id > 0 ? editData?.color_en : ""}
                   maxLength={80}
                   required
-                  value={colorEn || ""}
+                  value={colorEn}
                 />
                 <label htmlFor="color_ru"
                   className="block mb-1 text-sm font-medium">
@@ -105,10 +112,9 @@ const ModalColors = ({ setModalOpen, editData, getColor }) => {
                   name="color_ru"
                   className="w-full p-2 border border-gray-300 rounded mb-1"
                   placeholder="Цвет на русском"
-                  defaultValue={editData?.id > 0 ? editData?.color_ru : ""}
                   maxLength={80}
                   required
-                  value={colorRu || ""}
+                  value={colorRu}
                 />
                 <label htmlFor="color_de"
                   className="block mb-1 text-sm font-medium">
@@ -117,13 +123,12 @@ const ModalColors = ({ setModalOpen, editData, getColor }) => {
                 <input
                   onChange={(e) => setColorDe(e.target.value)}
                   type="text"
-                  name="name_de"
+                  name="color_de" 
                   className="w-full p-2 border border-gray-300 rounded mb-1"
                   placeholder="Farbe auf Deutsch"
-                  defaultValue={editData?.id > 0 ? editData?.color_de : ""}
                   maxLength={80}
                   required
-                  value={colorDe || ""}
+                  value={colorDe}
                 />
                 <button
                   type="submit"
